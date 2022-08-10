@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Display from "./components/Display/Display";
+import ButtonPanel from "./components/ButtonPanel/ButtonPanel";
+import calculate, { Values } from "./logic/calculate";
+import "./App.css";
 
 function App() {
+  const [val, setVal] = useState<Values>({
+    total: null,
+    next: null,
+    operation: null,
+  });
+
+  const handleClick = (buttonName: string) => {
+    const updatedVal: Values = calculate(val, buttonName);
+    setVal(updatedVal);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="component-app">
+      <Display value={val.next || val.total || "0"} />
+      <ButtonPanel clickHandler={handleClick} />
     </div>
   );
 }
